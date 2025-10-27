@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Club del Bajón — Pedidos online</title>
+  <meta name="description" content="Hacé tu pedido online: hamburguesas, papas, bebidas y combos. Elegí adicionales y armá tu pedido.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Mercado Pago (opcional) -->
+  <script src="https://sdk.mercadopago.com/js/v2"></script>
+  <style>
+    :root{
+      --cb-amarelo:#f4cf45;
+      --cb-rojo:#e23d2b;
+      --cb-negro:#0b0b0b;
+    }
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";}
+    .card{box-shadow:0 6px 16px rgba(0,0,0,.08)}
+    .chip{border:1px solid rgba(0,0,0,.08)}
+    .btn{transition:transform .04s ease,filter .2s ease}
+    .btn:active{transform:translateY(1px)}
+    dialog::backdrop{background:rgba(0,0,0,.55)}
+  </style>
+</head>
+<body class="bg-neutral-50 text-neutral-800">
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-neutral-200">
+    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center gap-3">
+      <img id="logo" src="logo-club-del-bajon.png" alt="Club del Bajón" class="h-10 w-10 rounded-full ring-2 ring-[var(--cb-amarelo)] object-cover bg-black" onerror="this.src='https://dummyimage.com/120x120/000/fff&text=CB'"/>
+      <div class="flex-1">
+        <h1 class="text-lg font-bold">Club del Bajón</h1>
+        <p class="text-sm text-neutral-500">Pedidos online · Retiro en local o delivery</p>
+      </div>
+
+      <div class="hidden sm:flex items-center gap-2">
+        <div class="relative">
+          <input id="searchInput" class="rounded-xl border px-3 py-2 pr-9 w-64" placeholder="Buscar en el menú...">
+          <span class="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-400">⌕</span>
+        </div>
+        <button id="openCart" class="btn relative px-4 py-2 rounded-xl bg-[var(--cb-rojo)] text-white font-semibold">
+          Carrito <span id="cartCount" class="absolute -top-2 -right-2 text-xs bg-[var(--cb-amarelo)] text-black px-2 py-0.5 rounded-full">0</span>
+        </button>
+      </div>
+      <button id="openCart" class="sm:hidden btn relative px-4 py-2 rounded-xl bg-[var(--cb-rojo)] text-white font-semibold">Carrito <span id="cartCount" class="absolute -top-2 -right-2 text-xs bg-[var(--cb-amarelo)] text-black px-2 py-0.5 rounded-full">0</span></button>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <section class="lg:col-span-8 space-y-6">
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <div class="flex items-center gap-2">
+          <button class="chip px-3 py-1.5 rounded-full text-sm" data-filter="all">Todo</button>
+          <button class="chip px-3 py-1.5 rounded-full text-sm" data-filter="combos">Combos</button>
+          <button class="chip px-3 py-1.5 rounded-full text-sm" data-filter="burgers">Hamburguesas</button>
+          <button class="chip px-3 py-1.5 rounded-full text-sm" data-filter="papas">Papas</button>
+          <button class="chip px-3 py-1.5 rounded-full text-sm" data-filter="gaseosas">Gaseosas</button>
+        </div>
+        <div class="sm:hidden w-full">
+          <input id="searchInputMobile" class="w-full rounded-xl border px-3 py-2" placeholder="Buscar en el menú...">
+        </div>
+      </div>
+
+      <div id="catalogo" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+    </section>
+
+    <aside class="lg:col-span-4">
+      <div class="card rounded-2xl bg-white p-4 sticky top-20">
+        <h3 class="text-lg font-bold mb-3">Tu pedido</h3>
+        <div id="cart" class="space-y-3 min-h-[100px]"></div>
+        <div class="mt-2 grid grid-cols-1 gap-2">
+          <input id="nombre" class="w-full rounded-xl border px-3 py-2" placeholder="Tu nombre"/>
+          <div class="grid grid-cols-2 gap-2">
+            <input id="direccion" class="rounded-xl border px-3 py-2" placeholder="Dirección (si es delivery)"/>
+            <input id="telefono" class="rounded-xl border px-3 py-2" placeholder="WhatsApp (solo números)"/>
+          </div>
+          <textarea id="notas" class="w-full rounded-xl border px-3 py-2" rows="2" placeholder="Notas del pedido"></textarea>
+          <div class="flex items-center gap-2 text-sm">
+            <input id="esDelivery" type="checkbox" class="accent-[var(--cb-rojo)]"/>
+            <label for="esDelivery">Quiero delivery</label>
+          </div>
+        </div>
+        <div class="border-t pt-3 mt-3 space-y-1">
+          <div class="flex justify-between"><span class="text-sm">Subtotal</span><span id="subtotal">$0</span></div>
+          <div class="flex justify-between"><span class="text-sm">Envío</span><span id="delivery">$0</span></div>
+          <div class="flex justify-between font-semibold text-lg"><span>Total</span><span id="total">$0</span></div>
+        </div>
+        <div class="mt-4 space-y-2">
+          <button id="btnMercadoPago" class="btn w-full px-4 py-3 rounded-xl bg-[#00a650] text-white font-semibold">Pagar con Mercado Pago</button>
+          <button id="btnWhats" class="btn w-full px-4 py-3 rounded-xl bg-[var(--cb-amarelo)] text-black font-semibold">Enviar por WhatsApp</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Modal -->
+  <dialog id="modal" class="rounded-2xl p-0 w-[min(96vw,560px)]">
+    <div class="p-4 border-b flex items-start gap-3">
+      <img id="mImg" class="h-16 w-16 rounded-xl object-cover"/>
+      <div class="flex-1">
+        <h3 id="mTitle" class="text-lg font-semibold"></h3>
+        <p id="mDesc" class="text-sm text-neutral-500"></p>
+      </div>
+      <button id="mClose" class="px-3 py-1 rounded-lg bg-neutral-100">✕</button>
+    </div>
+    <div class="p-4 space-y-4">
+      <div id="mAdicionales" class="space-y-2"></div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <button id="qtyMinus" class="px-3 py-2 rounded-lg bg-neutral-100">−</button>
+          <span id="mQty" class="min-w-[2ch] text-center">1</span>
+          <button id="qtyPlus" class="px-3 py-2 rounded-lg bg-neutral-100">＋</button>
+        </div>
+        <div class="text-right">
+          <div class="text-sm text-neutral-500">Subtotal</div>
+          <div id="mSubtotal" class="text-lg font-semibold">$0</div>
+        </div>
+      </div>
+      <button id="mAdd" class="btn w-full px-4 py-3 rounded-xl bg-[var(--cb-rojo)] text-white font-semibold">Agregar al carrito</button>
+    </div>
+  </dialog>
+
+  <footer class="mt-10 py-8 text-center text-sm text-neutral-500">
+    © <span id="year"></span> Club del Bajón — Made with ♥
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
