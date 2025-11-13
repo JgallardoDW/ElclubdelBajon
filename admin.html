@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin – El Club del Bajón</title>
+  <link rel="stylesheet" href="./css/admin.css"/>
+</head>
+<body>
+  <main class="container">
+    <h1>Admin – El Club del Bajón</h1>
+    <p class="muted">Edición local de <code>data/products.json</code>. Luego subí el JSON al repo.</p>
+
+    <section id="authSection" class="card">
+      <h2>Ingreso</h2>
+      <div class="row">
+        <label for="pass">Contraseña</label>
+        <input id="pass" type="password" placeholder="••••••••"/>
+        <button id="loginBtn">Entrar</button>
+      </div>
+      <p class="muted">Nota: este login es solo visual (no es seguro). Úsalo para práctica o mantén la URL privada.</p>
+    </section>
+
+    <section id="editorSection" class="card hidden">
+      <header class="toolbar">
+        <button id="add">Agregar</button>
+        <button id="loadFile">Cargar JSON…</button>
+        <button id="download">Descargar JSON</button>
+        <button id="reset">Restablecer lista demo</button>
+      </header>
+      <input id="fileInput" type="file" accept="application/json" hidden/>
+
+      <table class="table" id="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Precio (ARS)</th>
+            <th>Categoría</th>
+            <th>Disponible</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <p class="muted small">Guardá con “Descargar JSON” y reemplazá <code>/data/products.json</code> en el repositorio.</p>
+    </section>
+  </main>
+  <script type="module" src="./js/admin.js"></script>
+</body>
+</html>
