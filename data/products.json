@@ -1,0 +1,20 @@
+[
+  { "id": "coca15", "name": "Coca-Cola 1.5L", "price": 2800, "category": "gaseosas", "available": true, "img": "img/coca-15.jpg", "desc": "Sabor original" },
+  { "id": "sprite15", "name": "Sprite 1.5L", "price": 2600, "category": "gaseosas", "available": true, "img": "img/sprite-15.jpg", "desc": "Lima-limón" },
+  { "id": "fanta15", "name": "Fanta 1.5L", "price": 2600, "category": "gaseosas", "available": true, "img": "img/fanta-15.jpg", "desc": "Naranja" },
+
+  { "id": "brahma473", "name": "Brahma 473cc", "price": 2200, "category": "cervezas", "available": true, "img": "img/brahma-473.jpg", "desc": "Cerveza rubia" },
+  { "id": "heineken473", "name": "Heineken 473cc", "price": 2700, "category": "cervezas", "available": true, "img": "img/heineken-473.jpg", "desc": "Cerveza rubia" },
+  { "id": "quilmes473", "name": "Quilmes 473cc", "price": 2400, "category": "cervezas", "available": true, "img": "img/quilmes-473.jpg", "desc": "Clásica" },
+  { "id": "schneider710", "name": "Schneider 710cc", "price": 3300, "category": "cervezas", "available": true, "img": "img/schneider-710.jpg", "desc": "Lager" },
+
+  { "id": "combo-clasica", "name": "Combo Clásica", "price": 11500, "category": "combos", "available": true, "img": "img/clasica.jpeg", "desc": "Burger Clásica + Papas + Gaseosa" },
+  { "id": "combo-americana", "name": "Combo Americana", "price": 11000, "category": "combos", "available": true, "img": "img/americana.jpeg", "desc": "Americana + Papas + Gaseosa" },
+
+  { "id": "bk-clasica", "name": "Burger Clásica", "category": "burgers", "available": true, "img": "img/hamburge2.jpeg", "desc": "Incluye papas", "variantPrices": [8000, 9000, 10000, 11000, 12000] },
+  { "id": "bk-americana", "name": "Americana", "category": "burgers", "available": true, "img": "img/hamburge2.jpeg", "desc": "Incluye papas", "variantPrices": [7500, 8500, 9500, 10500, 11500] },
+  { "id": "bk-especial-bajon", "name": "Especial Bajón", "category": "burgers", "available": true, "img": "img/hamburg1.jpeg", "desc": "BBQ + Cheddar + Cebolla", "variantPrices": [8500, 10000, 11500, 13000, 15000] },
+  { "id": "bk-edicion-club", "name": "Edición Club Bajón", "category": "burgers", "available": true, "img": "img/bajonera.jpeg", "desc": "Cheddar + Bacon + Mostaza + BBQ", "variantPrices": [8500, 10000, 11500, 13000, 15000] },
+
+  { "id": "papas-clasicas", "name": "Papas Clásicas", "price": 2600, "category": "papas", "available": true, "img": "img/papas.jpeg", "desc": "Con sal marina" }
+]

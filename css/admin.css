@@ -1,0 +1,16 @@
+.container{max-width:980px;margin:auto;padding:16px;color:#e6e8ec;font-family:system-ui,Segoe UI,Roboto;background:linear-gradient(180deg,#0b0c10,#0f172a);min-height:100vh}
+h1{margin:8px 0 16px}
+.muted{color:#9aa3b2}
+.small{font-size:12px}
+.card{background:#11131a;border:1px solid #1e2433;border-radius:14px;padding:16px;margin:12px 0}
+.row{display:flex;gap:8px;align-items:center}
+input,button{border-radius:10px;border:1px solid #2a3245;background:#0e1220;color:#e6e8ec;padding:10px 12px}
+button{cursor:pointer}
+.hidden{display:none}
+.toolbar{display:flex;gap:8px;margin-bottom:12px}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{border-bottom:1px solid #1e2433;padding:8px;text-align:left}
+.table input[type='text'],.table input[type='number']{width:100%;background:#0b0f1c;border:1px solid #29324a;border-radius:8px;padding:6px 8px}
+.switch{display:flex;align-items:center;gap:6px}
+.delete{background:#2a0f0f;border-color:#5a2a2a}
+.addRow{background:#0f2a14;border-color:#2a5a36}
