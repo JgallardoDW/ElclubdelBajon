@@ -1,4 +1,3 @@
-/* Club del Bajón — app.js con Combos + Buscador */
 const WHATSAPP_DEST = '5491160067508'; // Cambiar por el número del local
 const MP_LOCALE = 'es-AR';
 
@@ -133,6 +132,50 @@ let carrito = [];
 let ENVIO = Number(localStorage.getItem('cb_envio') || 0);
 
 /* ====== Render ====== */
+// ===== Overrides desde data/products.json =====
+async function loadOverrides() {
+  try {
+    const res = await fetch('data/products.json', { cache: 'no-store' });
+    if (!res.ok) return; // si no existe, no falla
+
+    const list = await res.json();         // [{ id, price, nombre, desc, available, variantPrices }]
+    const byId = new Map(list.map(p => [p.id, p]));
+
+    MENU.forEach(item => {
+      const o = byId.get(item.id);
+      if (!o) return;
+
+      // ocultar/mostrar
+      if (Object.prototype.hasOwnProperty.call(o, 'available')) {
+        item._hidden = (o.available === false);
+      }
+
+      // renombrar/descripcion (opcional)
+      if (typeof o.nombre === 'string') item.nombre = o.nombre;
+      if (typeof o.desc   === 'string') item.desc   = o.desc;
+
+      // precio simple
+      if (!Array.isArray(item.variants) && typeof o.price === 'number') {
+        item.precio = o.price;
+      }
+
+      // precios por variante (si tu item tiene variants)
+      if (Array.isArray(item.variants) && Array.isArray(o.variantPrices)) {
+        item.variants = item.variants.map((v, i) => ({
+          ...v,
+          precio: (typeof o.variantPrices[i] === 'number' ? o.variantPrices[i] : v.precio)
+        }));
+      }
+    });
+  } catch (e) {
+    console.warn('Sin overrides de data/products.json', e);
+  }
+}
+
+function visibleMENU() {
+  return MENU.filter(p => !p._hidden);
+}
+
 const catalogo = $('#catalogo');
 
 function renderCatalogo(items = MENU){
@@ -231,7 +274,6 @@ function renderOpciones(p){
   });
 }
 
-/* >>>>>>> FUNCIÓN FALTANTE (FIX) <<<<<<< */
 // Calcula y muestra el subtotal del modal (cantidad + variante + extras)
 function actualizarSubtotalModal(){
   if (!itemActual) return;
